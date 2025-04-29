@@ -1,458 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>❄️ SnowDay Calculator – Predict School Closures</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<style>
-/* ======= colour palette (light-only) ======= */
-:root{
-    --primary:#205781;
-    --secondary:#4F959D;
-    --accent:#98D2C0;
-    --background:#F6F8D5;
-    --text:#2A363B;
-    --card-bg:#FFFFFF;
-}
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>❄️ SnowDay Calculator – Predict School Closures</title>
+        <link rel="stylesheet" href="/styles/index.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    </head>
 
-/* ======= reset / base ======= */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{
-    font-family:'Segoe UI',system-ui,sans-serif;
-    line-height:1.6;
-    background:var(--background);
-    color:var(--text);
-}
+    <body>
+        <!-- loader ----------------------------->
+        <div class="loader" id="loader"><div class="loader-spinner"></div></div>
 
-/* ======= header ======= */
-.header{
-    background:linear-gradient(135deg,var(--primary),var(--secondary));
-    padding:1rem;
-    text-align:center;
-    box-shadow:0 4px 15px rgba(0,0,0,.1)
-}
-.header h1{color:#fff;font-size:2rem;margin:0}
+        <!---------------------------- header ---------------------------->
+        <header class="header">
+            <h1>❄️ SnowDay Calculator AI</h1>
+        </header>
 
-/* ======= container ======= */
-.container{max-width:1000px;margin:3rem auto;padding:0 1.5rem}
+        <div class="container">
+            <div class="ad-space">Advertisement Space</div>
 
-/* ======= calculator card ======= */
-.calculator-card{
-    background:var(--card-bg);
-    border-radius:20px;
-    padding:2rem;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    margin:2rem 0;
-    position:relative
-}
-.input-note{text-align:center;margin:1rem 0;color:var(--secondary);font-size:1.1rem}
+            <!-------- calculator card ---------------->
+            <div class="calculator-card">
+                <!-- input area -->
+                <div id="inputContainer">
+                    <div class="input-note">Fill state + ZIP <em>or</em> full address</div>
+                    <div class="input-section">
+                        <!-- state + zip -->
+                        <div>
+                            <div class="input-group">
+                                <select id="stateSelect">
+                                    <option value="">Select State</option>
+                                    <!-- 50 states + DC -->
+                                    <option value="AL">Alabama</option><option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option><option value="AR">Arkansas</option>
+                                    <option value="CA">California</option><option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option><option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option><option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option><option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option><option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option><option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option><option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option><option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option><option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option><option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option><option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option><option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option><option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option><option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option><option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option><option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option><option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option><option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option><option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option><option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option><option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option><option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option><option value="WY">Wyoming</option>
+                                    <option value="DC">District of Columbia</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <input id="zipcodeInput" type="text" placeholder="Enter ZIP Code" disabled />
+                            </div>
+                        </div>
 
-/* grid for state+zip or address */
-.input-section{
-    display:grid;
-    grid-template-columns:1fr 1px 1fr;
-    gap:2rem;
-    margin:1rem 0
-}
-.divider{background:var(--accent);width:1px;height:100%;position:relative}
-.divider::before{
-    content:"OR";
-    position:absolute;top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    background:var(--background);
-    padding:0 1rem;
-    font-weight:bold
-}
+                        <div class="divider"></div>
 
-/* inputs */
-.input-group{margin:.5rem 0}
-select,input[type=text]{
-    width:100%;
-    padding:1rem;
-    border:2px solid var(--accent);
-    border-radius:8px;
-    font-size:1rem;
-    margin:.5rem 0;
-    background:var(--card-bg);
-    color:var(--text)
-}
-
-/* buttons */
-button{
-    background:linear-gradient(45deg,var(--primary),var(--secondary));
-    color:#fff;border:none;
-    padding:1.2rem 2.5rem;
-    border-radius:12px;
-    font-size:1.2rem;
-    cursor:pointer;
-    width:100%;
-    margin-top:1rem;
-    transition:filter .2s
-}
-button:hover{filter:brightness(.9)}       /* darker on hover */
-
-/* loader */
-.loader{position:fixed;inset:0;background:rgba(255,255,255,.9);
-        display:none;justify-content:center;align-items:center;z-index:1000}
-.loader-spinner{width:50px;height:50px;border:5px solid #f3f3f3;
-                border-top:5px solid var(--primary);border-radius:50%;
-                animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* results section */
-.results{display:none;margin-top:2rem;animation:fadeIn .5s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.results h3{font-size:1.45rem;color:var(--primary);margin-bottom:1rem}
-
-/* forecast cards */
-.forecast-card{
-    background:var(--card-bg);
-    border-radius:12px;
-    padding:1.5rem;
-    margin:1rem 0;
-    box-shadow:0 4px 6px rgba(0,0,0,.05);
-    border-left:4px solid var(--accent)
-}
-.status-label{font-weight:700;margin-bottom:.8rem}
-.status-label.snow{color:#B71C1C}
-.status-label.clear{color:#00796B}
-
-.progress-wrap{
-    background:#e0e0e0;
-    border-radius:6px;
-    height:10px;
-    margin-top:.6rem;
-    overflow:hidden
-}
-.progress-fill{
-    height:100%;
-    background:linear-gradient(90deg,var(--secondary),var(--accent));
-    width:0%
-}
-
-/* advertisement placeholder */
-.ad-space{
-    height:100px;
-    background:rgba(0,0,0,.05);
-    margin:2rem 0;
-    border-radius:8px;
-    display:flex;align-items:center;justify-content:center;
-    opacity:.8;color:var(--text)
-}
-
-/* FAQ */
-.faq-item{margin:.5rem 0;background:var(--card-bg);
-          border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
-.faq-question{padding:1rem;cursor:pointer;display:flex;justify-content:space-between}
-.faq-answer{display:none;padding:0 1rem 1rem;border-top:1px solid var(--accent)}
-.hidden-section{display:none !important;height:0;overflow:hidden}
-
-/* footer */
-.footer{background:var(--primary);color:#fff;padding:1.5rem 1rem;margin-top:4rem}
-.footer nav{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
-.footer a{color:#fff;text-decoration:none;font-weight:500}
-.footer a:hover{text-decoration:underline}
-
-@media(max-width:768px){
-    .input-section{grid-template-columns:1fr;grid-template-rows:auto 1px auto}
-    .divider{width:100%;height:1px}
-}
-</style>
-</head>
-
-<body>
-<!-- loader ----------------------------->
-<div class="loader" id="loader"><div class="loader-spinner"></div></div>
-
-<!-- header ---------------------------->
-<header class="header">
-    <h1>❄️ SnowDay Predictor</h1>
-</header>
-
-<div class="container">
-    <div class="ad-space">Advertisement Space</div>
-
-    <!-- calculator card ---------------->
-    <div class="calculator-card">
-        <!-- input area -->
-        <div id="inputContainer">
-            <div class="input-note">Fill state + ZIP <em>or</em> full address</div>
-            <div class="input-section">
-                <!-- state + zip -->
-                <div>
-                    <div class="input-group">
-                        <select id="stateSelect">
-                            <option value="">Select State</option>
-                            <!-- 50 states + DC -->
-                            <option value="AL">Alabama</option><option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option><option value="AR">Arkansas</option>
-                            <option value="CA">California</option><option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option><option value="DE">Delaware</option>
-                            <option value="FL">Florida</option><option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option><option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option><option value="IN">Indiana</option>
-                            <option value="IA">Iowa</option><option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option><option value="LA">Louisiana</option>
-                            <option value="ME">Maine</option><option value="MD">Maryland</option>
-                            <option value="MA">Massachusetts</option><option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option><option value="MS">Mississippi</option>
-                            <option value="MO">Missouri</option><option value="MT">Montana</option>
-                            <option value="NE">Nebraska</option><option value="NV">Nevada</option>
-                            <option value="NH">New Hampshire</option><option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option><option value="NY">New York</option>
-                            <option value="NC">North Carolina</option><option value="ND">North Dakota</option>
-                            <option value="OH">Ohio</option><option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option><option value="PA">Pennsylvania</option>
-                            <option value="RI">Rhode Island</option><option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option><option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option><option value="UT">Utah</option>
-                            <option value="VT">Vermont</option><option value="VA">Virginia</option>
-                            <option value="WA">Washington</option><option value="WV">West Virginia</option>
-                            <option value="WI">Wisconsin</option><option value="WY">Wyoming</option>
-                            <option value="DC">District of Columbia</option>
-                        </select>
+                        <!-- address -->
+                        <div><div class="input-group">
+                            <input id="addressInput" type="text" placeholder="🏠 Enter Full Address">
+                        </div></div>
                     </div>
-                    <div class="input-group">
-                        <input id="zipcodeInput" type="text" placeholder="Enter ZIP Code" disabled />
+                    <button onclick="calculateProbability()">❄️ Calculate Snow-Day Chance</button>
+                </div>
+
+                <!--------------- results ------------------->
+                <div id="results" class="results">
+                    <h3>Snow-Day Calculator Forecasts</h3>
+                    <div id="forecastResults"></div>
+                    <div style="display:flex;flex-direction:column;gap:1rem">
+                        <button onclick="generatePDF()">📄 Download PDF Report</button>
+                        <button onclick="resetCalculator()">📍 Calculate for Another Place</button>
                     </div>
                 </div>
 
-                <div class="divider"></div>
-
-                <!-- address -->
-                <div><div class="input-group">
-                    <input id="addressInput" type="text" placeholder="🏠 Enter Full Address">
-                </div></div>
             </div>
-            <button onclick="calculateProbability()">❄️ Calculate Snow-Day Chance</button>
-        </div>
 
-        <!-- results -->
-        <div id="results" class="results">
-            <h3>Snow-Day Calculator Forecasts</h3>
-            <div id="forecastResults"></div>
-            <div style="display:flex;flex-direction:column;gap:1rem">
-                <button onclick="generatePDF()">📄 Download PDF Report</button>
-                <button onclick="resetCalculator()">📍 Calculate for Another Place</button>
+            <div class="ad-space">Advertisement Space</div>
+
+            <!-------------------------- FAQ ---------------------------->
+            <div class="faq-section">
+                <h2>❓ Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">How does the calculator work? <span>▼</span></div>
+                    <div class="faq-answer">We analyse real-time weather data and historical closure patterns.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">How accurate are predictions? <span>▼</span></div>
+                    <div class="faq-answer">Accuracy may vary with sudden weather changes, but data updates hourly.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">What is a snow day? <span>▼</span></div>
+                    <div class="faq-answer">A day when schools or businesses close due to heavy snow or unsafe roads.</div>
+                </div>
             </div>
         </div>
-    </div>
+        <!-- /container -->
 
-    <div class="ad-space">Advertisement Space</div>
+        <!-- footer -->
+        <footer class="footer">
+            <nav>
+                <a href="#">Blogs</a>
+                <a href="#">About&nbsp;Us</a>
+                <a href="#">Contact&nbsp;Us</a>
+                <a href="#">Terms&nbsp;&amp;&nbsp;Conditions</a>
+                <a href="#">Privacy&nbsp;Policy</a>
+            </nav>
+        </footer>
 
-    <!-- FAQ ---------------------------->
-    <div class="faq-section">
-        <h2>❓ Frequently Asked Questions</h2>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">How does the calculator work? <span>▼</span></div>
-            <div class="faq-answer">We analyse real-time weather data and historical closure patterns.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">How accurate are predictions? <span>▼</span></div>
-            <div class="faq-answer">Accuracy may vary with sudden weather changes, but data updates hourly.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">What is a snow day? <span>▼</span></div>
-            <div class="faq-answer">A day when schools or businesses close due to heavy snow or unsafe roads.</div>
-        </div>
-    </div>
-</div><!-- /container -->
+        <script src="/scripts/index.js"></script>
 
-<!-- footer -->
-<footer class="footer">
-    <nav>
-        <a href="#">Blogs</a>
-        <a href="#">About&nbsp;Us</a>
-        <a href="#">Contact&nbsp;Us</a>
-        <a href="#">Terms&nbsp;&amp;&nbsp;Conditions</a>
-        <a href="#">Privacy&nbsp;Policy</a>
-    </nav>
-</footer>
-
-<script>
-/* ========= GLOBALS ========= */
-const GEOCODE_APIKEY="680f928454bd6907926580ftwca9e41";
-const stateSelect   = document.getElementById("stateSelect");
-const zipcodeInput  = document.getElementById("zipcodeInput");
-const addressInput  = document.getElementById("addressInput");
-const loader        = document.getElementById("loader");
-let   currentForecast=[];
-
-/* ========= input behaviour ========= */
-stateSelect.addEventListener("change",()=>{
-    zipcodeInput.disabled = !stateSelect.value;
-    if(stateSelect.value){
-        addressInput.disabled = true;
-        addressInput.value    = "";
-    }else{
-        addressInput.disabled = false;
-    }
-});
-addressInput.addEventListener("input",()=>{
-    if(addressInput.value.trim()){
-        stateSelect.disabled  = true;
-        zipcodeInput.disabled = true;
-        stateSelect.value     = "";
-        zipcodeInput.value    = "";
-    }else{
-        stateSelect.disabled  = false;
-        zipcodeInput.disabled = !stateSelect.value;
-    }
-});
-function showInputs(flag){
-    document.getElementById("inputContainer")
-            .classList.toggle("hidden-section",!flag);
-}
-
-/* ========= API helpers ========= */
-async function callApiChain(addr){
-    const geo = await fetch("https://geocode.maps.co/search?"+
-                 new URLSearchParams({q:addr,api_key:GEOCODE_APIKEY}))
-                 .then(r=>{if(!r.ok)throw`Geocode ${r.status}`;return r.json()});
-    if(!geo.length)throw"Address not found";
-    const {lat,lon}=geo[0];
-
-    const points = await fetch(`https://api.weather.gov/points/${lat},${lon}`)
-                   .then(r=>{if(!r.ok)throw`Points ${r.status}`;return r.json()});
-    return fetch(points.properties.forecast)
-           .then(r=>{if(!r.ok)throw`Forecast ${r.status}`;return r.json()})
-           .then(j=>j.properties.periods);
-}
-
-function processForecast(periods){
-    const today=new Date();today.setHours(0,0,0,0);
-    const upcoming=[0,1,2].map(i=>{const d=new Date(today);
-        d.setDate(today.getDate()+i);return d.toLocaleDateString("en-CA");});
-    const daily={};
-    periods.forEach(p=>{
-        const k=p.startTime.slice(0,10);
-        if(!upcoming.includes(k))return;
-        const snow=/snow|blizzard/i.test(p.shortForecast);
-        const pop=p.probabilityOfPrecipitation?.value;
-        if(!daily[k])
-            daily[k]={snow,temp:p.temperature||'N/A',forecast:p.shortForecast,popSum:0,popCnt:0};
-        daily[k].snow||=snow;
-        if(pop!=null){daily[k].popSum+=pop;daily[k].popCnt++;}
-    });
-    return upcoming.map(k=>{
-        if(!daily[k])return null;
-        const dObj=new Date(k),inF=daily[k];
-        const avg=inF.popCnt?Math.round(inF.popSum/inF.popCnt):0;
-        return{
-            date:dObj.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'}),
-            snow:inF.snow,temp:inF.temp,forecast:inF.forecast,
-            chance:inF.snow?Math.max(avg,70):Math.round(avg*0.15)
-        };
-    }).filter(Boolean);
-}
-
-/* ========= calculate ========= */
-async function calculateProbability(){
-    let addr=addressInput.value.trim();
-    if(!addr && stateSelect.value && zipcodeInput.value.trim())
-        addr=`${zipcodeInput.value.trim()}, ${stateSelect.selectedOptions[0].text}`;
-    if(!addr){alert("Please provide location information");return;}
-
-    loader.style.display="flex";
-    try{
-        const periods=await callApiChain(addr);
-        currentForecast=processForecast(periods);
-
-        const wrap=document.getElementById("forecastResults");
-        wrap.innerHTML=currentForecast.map(d=>`
-            <div class="forecast-card">
-                <div class="status-label ${d.snow?'snow':'clear'}">
-                    ${d.snow?'High chance of Snow Day ❄️':'No Snow Expected ☀️'}
-                </div>
-                <div>Date: ${d.date}</div>
-                <div>Condition: ${d.forecast}</div>
-                <div>Temperature: ${d.temp}°F</div>
-                <div class="progress-wrap"><div class="progress-fill" style="width:${d.chance}%"></div></div>
-                <div class="status-label ${d.snow?'snow':'clear'}" style="margin-top:1rem">
-                    ${d.snow?'Schools likely closed! Stay safe!':'Normal school day expected'}
-                </div>
-            </div>`).join("");
-
-        document.getElementById("results").style.display="block";
-        showInputs(false);
-    }catch(e){
-        console.error(e);
-        forecastResults.innerHTML=`<div class="forecast-card">❌ Error: ${e}</div>`;
-    }finally{loader.style.display="none";}
-}
-
-/* ========= reset ========= */
-function resetCalculator(){
-    stateSelect.value="";zipcodeInput.value="";addressInput.value="";
-    stateSelect.disabled=false;zipcodeInput.disabled=true;addressInput.disabled=false;
-    document.getElementById("forecastResults").innerHTML="";
-    document.getElementById("results").style.display="none";
-    showInputs(true);
-    window.scrollTo({top:0,behavior:'smooth'});
-}
-
-/* ========= FAQ toggle ========= */
-function toggleFAQ(el){
-    const ans=el.nextElementSibling;
-    ans.style.display=ans.style.display==='block'?'none':'block';
-}
-
-/* ========= PDF export ========= */
-function generatePDF(){
-    if(!currentForecast.length){alert("Please calculate a forecast first.");return;}
-
-    const doc=new jspdf.jsPDF({orientation:"p",unit:"mm",format:"a4"});
-    const pageW=doc.internal.pageSize.getWidth();
-    const mX=15,headerH=26,gap=14,cardH=40;
-    let y=headerH+gap;
-
-    /* header strip */
-    doc.setFillColor(32,87,129).rect(0,0,pageW,headerH,"F");
-    doc.setFont("helvetica","bold").setFontSize(19).setTextColor(255,255,255)
-       .text("Snow-Day Forecast Report",pageW/2,16,{align:"center"});
-
-    /* cards */
-    doc.setFont("helvetica","normal").setFontSize(12).setTextColor(0,0,0);
-    currentForecast.forEach((d,idx)=>{
-        const tint=d.snow?{r:200,g:242,b:248}:{r:238,g:240,b:243};
-        doc.setFillColor(tint.r,tint.g,tint.b);
-        doc.roundedRect(mX,y-2,pageW-mX*2,cardH,3,3,"F");
-
-        doc.setFont("helvetica","bold").text(d.date,mX+4,y+8);
-        doc.setFont("helvetica","normal")
-           .text(`Condition : ${d.forecast}`,mX+4,y+18)
-           .text(`Temperature: ${d.temp}°F`,mX+4,y+26);
-
-        const status=d.snow?"School likely CLOSED":"School expected OPEN";
-        const col=d.snow?{r:183,g:28,b:28}:{r:27,g:94,b:32};
-        doc.setTextColor(col.r,col.g,col.b).setFont("helvetica","bold")
-           .text(status,pageW-mX-4,y+18,{align:"right"})
-           .setTextColor(0,0,0);
-
-        y+=cardH+10;
-        if(y+cardH>doc.internal.pageSize.getHeight()-30 && idx<currentForecast.length-1){
-            doc.addPage();y=20;
-        }
-    });
-
-    /* promo + timestamp */
-    if(y+14>doc.internal.pageSize.getHeight()-15){doc.addPage();y=20;}
-    doc.setFontSize(14).setFont("helvetica","normal");
-    const before="Generated from ";
-    const link="snowdayscalculatorai.com";
-    const after=" – visit for more forecasts!";
-    let x=mX;
-    doc.setTextColor(0,0,0).text(before,x,y);x+=doc.getTextWidth(before);
-    doc.setTextColor(32,87,129).text(link,x,y);
-    doc.link(x,y-5,doc.getTextWidth(link),6,{url:"https://snowdayscalculatorai.com"});
-    x+=doc.getTextWidth(link);
-    doc.setTextColor(0,0,0).text(after,x,y);
-    doc.text(`Generated on: ${new Date().toLocaleString()}`,mX,y+7);
-
-    doc.save("snow-day-report.pdf");
-}
-</script>
-</body>
+    </body>
 </html>
