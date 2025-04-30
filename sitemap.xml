@@ -9,7 +9,28 @@
 
 <url>
   <loc>https://snowdayscalculatorai.com/</loc>
-  <lastmod>2025-04-30T05:49:01+00:00</lastmod>
+  <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://snowdayscalculatorai.com/blogs.html</loc>
+  <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://snowdayscalculatorai.com/blogs/what-makes-a-snow-day.html</loc>
+  <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://snowdayscalculatorai.com/blogs/how-snow-day-calculator-works.html</loc>
+  <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://snowdayscalculatorai.com/blogs/how-much-snow-for-a-snow-day.html</loc>
+  <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 
 
