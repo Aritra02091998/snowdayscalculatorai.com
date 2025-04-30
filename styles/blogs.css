@@ -1,0 +1,71 @@
+/* ——— blog-page specific tweaks (inherits palette from :root in index.css) ——— */
+
+/* ── wide map image ─────────────────────────── */
+.blog-map{
+    width:35%;             /* fills most of the wrapper, never edge-to-edge */
+    max-width:700px;       /* caps size on very wide screens */
+    display:block;
+    margin:1rem auto 1.5rem;   /* centers & gives breathing room */
+    border-radius:8px;
+    object-fit:cover;      /* keeps aspect tidy if you later adjust height */
+}
+
+/* wrapper keeps list from spanning full viewport */
+.blog-wrapper{
+    max-width:900px;          /* narrower than your 1000 px container */
+    margin:3rem auto 4rem;
+    padding:0 1.5rem;
+}
+
+/* section heading */
+.blog-heading{
+    text-align:center;
+    color:var(--primary);
+    font-size:1.8rem;
+    margin-bottom:2rem;
+}
+
+/* blog “tab / card” list */
+.blog-list{
+    display:flex;
+    flex-direction:column;
+    gap:1.75rem;
+}
+
+/* individual card */
+.blog-card{
+    display:block;
+    background:var(--card-bg);
+    border-left:5px solid var(--accent);   /* subtle “tab” vibe */
+    padding:1.5rem 2rem;
+    border-radius:14px;
+    text-decoration:none;
+    color:var(--text);
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
+    transition:.15s transform,.15s box-shadow;
+}
+.blog-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+/* typography inside card */
+.blog-card h3{
+    margin:0 0 .6rem;
+    color:var(--primary);
+    font-size:1.35rem;
+}
+.blog-card p{
+    margin:0;
+    font-size:1rem;
+    line-height:1.55;
+    opacity:.85;
+}
+
+/* responsiveness */
+@media(max-width:600px){
+    .blog-card{padding:1.25rem 1.5rem}
+    .blog-heading{font-size:1.6rem}
+}
+
+

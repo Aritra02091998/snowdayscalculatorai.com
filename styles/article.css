@@ -1,0 +1,89 @@
+/* ───────── article-specific styles ─────────
+   (inherits color variables from :root in index.css)
+*/
+
+/* centered column */
+.article-wrapper{
+    max-width:800px;
+    margin:3rem auto 4rem;
+    padding:0 1.5rem;
+}
+
+/* map image */
+.article-map{
+    width:35%;
+    max-width:300px;
+    display:block;
+    margin:0 auto 2rem;
+    border-radius:8px;
+    object-fit:contain;
+}
+
+/* heading */
+.article-title{
+    text-align:center;
+    color:var(--primary);
+    font-size:2rem;
+    margin:0 0 1.5rem;
+}
+
+/* body text */
+.article-body{
+    font-size:1.05rem;
+    line-height:1.7;
+}
+.article-body h3{
+    color:var(--secondary);
+    margin:1.75rem 0 .75rem;
+    font-size:1.2rem;
+}
+
+/* ───────── feedback widget ───────── */
+.feedback{
+    text-align:center;
+    margin-top:3rem;
+}
+.feedback p{margin-bottom:1rem;color:var(--text)}
+
+/* emoji row in one line */
+.emoji-row{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+}
+
+.emoji-btn{
+    font-size:1.75rem;
+    padding:.5rem 1rem;
+    background:var(--card-bg);
+    border:2px solid var(--accent);
+    border-radius:50px;
+    cursor:pointer;
+    transition:.15s transform;
+}
+.emoji-btn:hover{transform:translateY(-2px)}
+.emoji-btn:disabled{opacity:.5;cursor:default}
+
+.thanks-msg{
+    margin-top:1rem;
+    font-weight:600;
+    color:var(--primary);
+}
+
+
+/* small hollow back button */
+.back-btn.outline{
+    margin-top:2rem;
+    padding:.4rem 1.1rem;
+    font-size:.95rem;
+    background:transparent;
+    color:var(--primary);
+    border:2px solid var(--primary);
+    border-radius:40px;
+    cursor:pointer;
+    transition:.15s background-color,.15s color;
+}
+.back-btn.outline:hover{
+    background:var(--primary);
+    color:#fff;
+}
