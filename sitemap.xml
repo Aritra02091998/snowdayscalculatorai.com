@@ -9,13 +9,18 @@
 
 <url>
   <loc>https://snowdayscalculatorai.com/</loc>
-  <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <lastmod>2025-05-01T14:49:08+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://snowdayscalculatorai.com/blogs.html</loc>
-  <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <lastmod>2025-05-01T14:49:08+00:00</lastmod>
   <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://snowdayscalculatorai.com/blogs/what-is-a-snow-day.html</loc>
+  <lastmod>2025-05-01T14:49:08+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://snowdayscalculatorai.com/blogs/what-makes-a-snow-day.html</loc>
@@ -30,6 +35,11 @@
 <url>
   <loc>https://snowdayscalculatorai.com/blogs/how-much-snow-for-a-snow-day.html</loc>
   <lastmod>2025-04-30T11:56:21+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://snowdayscalculatorai.com/blogs/How-many-snow-days-do-schools-get.html</loc>
+  <lastmod>2025-05-01T14:49:08+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
