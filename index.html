@@ -10,6 +10,7 @@
         <link rel="icon" href="/assets/site-icon-apt.png" type="image/x-icon" />
         <link rel="stylesheet" href="/styles/index.css" />
         <link rel="stylesheet" href="/styles/footer.css" />
+        <link rel="stylesheet" href="/styles/incoming-queries.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
         
         <!-- Google tag (gtag.js) -->
@@ -37,7 +38,13 @@
         </header>
 
         <div class="container">
-            <div class="ad-space"></div>
+            <!-- incoming-queries.html -->
+            <div class="incoming-queries">
+                <h3>🔄 Recent Searches</h3>
+                <div class="queries-slider">
+                <div class="query-list" id="queryList"></div>
+                </div>
+            </div>
 
             <!-------- calculator card ---------------->
             <div class="calculator-card">
@@ -106,6 +113,9 @@
 
             </div>
 
+
+            
+
             <div class="ad-space"></div>
 
             <!-------------------------- FAQ ---------------------------->
@@ -146,6 +156,7 @@
         </footer>
 
         <script src="/scripts/index.js"></script>
+        <script src="/scripts/incoming-queries.js"></script>
 
     </body>
 </html>

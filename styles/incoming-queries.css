@@ -1,0 +1,54 @@
+:root {
+    --iq-primary: #205781;
+    --iq-card-bg: #ffffff;
+    --iq-text: #2A363B;
+  }
+  
+  /* Container */
+  .incoming-queries {
+    margin: 2rem 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: var(--iq-text);
+  }
+  .incoming-queries h3 {
+    font-size: 1.25rem;
+    color: var(--iq-primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Slider viewport */
+  .queries-slider {
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* The moving list */
+  .query-list {
+    display: flex;
+    width: max-content;
+    animation: scroll-left 20s linear infinite;
+  }
+  
+  /* Individual “query card” */
+  .query-card {
+    background: var(--iq-card-bg);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-right: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    white-space: nowrap;
+    font-size: 0.95rem;
+  }
+  
+  /* Keyframes */
+  @keyframes scroll-left {
+    0%   { transform: translateX(0);   }
+    100% { transform: translateX(-50%); }
+  }
+  
+  /* Responsive tweak (optional) */
+  @media (max-width: 600px) {
+    .incoming-queries h3 { font-size: 1.1rem; }
+    .query-card { font-size: 0.85rem; padding: 0.5rem; }
+  }
+  
